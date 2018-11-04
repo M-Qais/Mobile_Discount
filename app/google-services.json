@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1095852040922",
+    "firebase_url": "https://discount-mobile.firebaseio.com",
+    "project_id": "discount-mobile",
+    "storage_bucket": "discount-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095852040922:android:c8151414fdd66033",
+        "android_client_info": {
+          "package_name": "qais.mirza.mobile_discount"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1095852040922-ep2remmvur0ljq2h1c1l102uev3e47sj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "qais.mirza.mobile_discount",
+            "certificate_hash": "c9c366703ddfb9e6579ecc3dc1763c31a702d24e"
+          }
+        },
+        {
+          "client_id": "1095852040922-vsc1mq3ijqthfj2loolvq9jelg2tap69.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFoWLbRrmM_mMd0n4clyGcd7UQl3TQhOY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1095852040922-vsc1mq3ijqthfj2loolvq9jelg2tap69.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
