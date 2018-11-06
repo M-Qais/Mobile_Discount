@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/*this project is created by nabeeel and qais */
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -26,7 +26,7 @@ import com.hbb20.CountryCodePicker;
 
 import java.util.concurrent.TimeUnit;
 
-/*this project is created by nabeeel and qais */
+
 
 public class VerifyScreen extends AppCompatActivity {
 
@@ -93,7 +93,7 @@ public class VerifyScreen extends AppCompatActivity {
                     } else {
                         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                 number,
-                                60,
+                                30,
                                 TimeUnit.SECONDS,
                                 VerifyScreen.this,
                                 mcallback

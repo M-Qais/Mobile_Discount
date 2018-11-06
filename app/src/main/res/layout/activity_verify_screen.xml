@@ -54,6 +54,7 @@
            android:inputType="number"
            android:background="@null"
            android:layout_gravity="center"
+
            />
 
        <ProgressBar
@@ -75,12 +76,12 @@
 
         <EditText
             android:id="@+id/verifcation_code"
-            android:layout_width="280dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="Verification Code"
+            android:hint="Enter Verification Code Here !"
             android:inputType="number"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:textColorHint="@android:color/black"
 
             />
@@ -89,8 +90,8 @@
             android:id="@+id/verification_code_bar"
             android:layout_width="20dp"
             android:layout_height="20dp"
-
             android:layout_gravity="right|center"
+            android:layout_marginLeft="10dp"
             android:visibility="invisible" />
 
     </LinearLayout>
@@ -99,12 +100,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="A verification code will be sent \n       to your phone number "
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:layout_marginTop="30dp"/>
 
     <TextView
+        android:id="@+id/error_authent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/error_authent"
         android:layout_marginTop="30dp"
         android:text="There was an error in authentication phone number "
         android:textColor="@android:color/holo_red_light"
