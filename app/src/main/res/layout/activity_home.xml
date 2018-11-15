@@ -7,26 +7,34 @@
     tools:context=".HomeActivity">
 
 
-    <!--<TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="helllllo there "
-        android:textSize="50sp"
-        android:id="@+id/hellooo"
-        android:textAlignment="center"/>-->
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/heading_dua"
-        android:text="Discount Products For You "
-        android:layout_gravity="center_horizontal"
-        android:textAlignment="center"
-        android:background="@color/yellow"
-        android:textStyle="italic"
-        android:layout_marginTop="10dp"
-        android:textColor="@android:color/black"
-        android:textSize="25sp"/>
+        android:layout_height="50dp"
+        android:id="@+id/textDataLinear"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/heading_dua"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/yellow"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:text="Discount Products For You "
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="italic" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/addformimage"
+            android:layout_gravity="start"
+            android:src="@drawable/ic_add_black_24dp"/>
+
+    </LinearLayout>
+
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView

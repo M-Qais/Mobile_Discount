@@ -1,12 +1,15 @@
-package qais.mirza.mobile_discount;
+package hamza.m.mobile_discount;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import qais.mirza.adapters.Products_home_adapter;
+import hamza.m.adapters.Products_home_adapter;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 import static java.security.AccessController.getContext;
@@ -17,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
      RecyclerView products_recyclerView;
     RecyclerView.Adapter product_adapter;
     RecyclerView.LayoutManager product_layoutManager;
+    ImageView addform_image ;
 
     //arrays for data filling
     int[] product_image = {
@@ -61,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
                         setFontAttrId(R.attr.fontPath).
                         build());
         setContentView(R.layout.activity_home);
+        addform_image = (ImageView) findViewById(R.id.addformimage);
+
 
 
 //        hello= findViewById(R.id.hellooo);
@@ -74,6 +80,15 @@ public class HomeActivity extends AppCompatActivity {
 
         product_adapter =  new Products_home_adapter(this,product_image,product_name,product_description,product_type);
         products_recyclerView.setAdapter(product_adapter);
+
+
+        addform_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addform = new Intent (HomeActivity.this,Shopkeeperform.class);
+                startActivity(addform);
+            }
+        });
     }
 
 

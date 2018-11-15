@@ -1,4 +1,4 @@
-package qais.mirza.mobile_discount;
+package hamza.m.mobile_discount;
 
 import org.junit.Test;
 

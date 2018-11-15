@@ -1,4 +1,4 @@
-package qais.mirza.adapters;
+package hamza.m.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.security.AccessControlContext;
 
-import qais.mirza.mobile_discount.R;
+import hamza.m.mobile_discount.R;
 
 
 public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {

@@ -1,4 +1,4 @@
-package qais.mirza.mobile_discount;
+package hamza.m.mobile_discount;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

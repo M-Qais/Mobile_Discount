@@ -1,4 +1,4 @@
-package qais.mirza.mobile_discount;
+package hamza.m.mobile_discount;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

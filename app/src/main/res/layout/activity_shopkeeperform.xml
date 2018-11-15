@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Shopkeeperform"
+    android:id="@+id/relativelayoutOfForm"
+    android:background="@color/yellow">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Product Form "
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textStyle="bold|italic"
+        android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/et_linear"
+        android:layout_centerInParent="true"
+        android:background="@color/owsome">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_name_sk"
+            android:hint="Product Name"
+            android:inputType="text"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/Product_type_sk"
+            android:hint="Product Type   Food,Health, Home Etc.."
+            android:inputType="text"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_description_sk"
+            android:hint="Product Description"
+            android:inputType="text"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_price_sk"
+            android:hint="Product Price"
+            android:inputType="number"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_disocunt_sk"
+            android:hint="Product Discount"
+            android:inputType="text"
+            />
+
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_linear"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/white"
+        android:text="SAVE"
+        android:id="@+id/saveformsk_btn"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"/>
+
+</RelativeLayout>
