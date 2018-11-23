@@ -2,5 +2,16 @@
     <string name="app_name">Mobile Discount</string>
     <string name="title">saving profile </string>
     <string name="message">Please wait....</string>
+    <string name="name">Product Name: </string>
+    <string name="price">Product Price: </string>
+    <string name="type">Product Type</string>
+    <string name="discount">Product Discount....</string>
+    <array name="product_type">
+
+        <item>Food</item>
+        <item>Health</item>
+        <item>Home Appliances</item>
+    </array>
+
 
 </resources>

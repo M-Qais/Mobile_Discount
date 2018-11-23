@@ -63,7 +63,7 @@
       android:layout_below="@id/name_profiles"
       android:layout_marginTop="100dp"
       android:text="Done"
-      android:background="@color/yellow"/>
+      android:background="#ff6326"/>
 
 
 </RelativeLayout>

@@ -8,14 +8,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1095852040922:android:c8151414fdd66033",
+        "mobilesdk_app_id": "1:1095852040922:android:cd78707952479152",
         "android_client_info": {
           "package_name": "hamza.m.mobile_discount"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1095852040922-ep2remmvur0ljq2h1c1l102uev3e47sj.apps.googleusercontent.com",
+          "client_id": "1095852040922-74na32qpg6dgp559emnta7gngqnmmm83.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "hamza.m.mobile_discount",

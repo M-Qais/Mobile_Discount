@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".HomeActivity">
 
 
-
     <LinearLayout
+        android:id="@+id/textDataLinear"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/textDataLinear"
         android:orientation="horizontal">
 
         <TextView
@@ -19,19 +19,20 @@
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:background="@color/yellow"
+            android:background="#ff6326"
             android:gravity="center_horizontal"
-            android:textAlignment="center"
             android:text="Discount Products For You "
+            android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="25sp"
             android:textStyle="italic" />
+
         <ImageView
+            android:id="@+id/addformimage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/addformimage"
             android:layout_gravity="start"
-            android:src="@drawable/ic_add_black_24dp"/>
+            android:src="@drawable/addddd" />
 
     </LinearLayout>
 

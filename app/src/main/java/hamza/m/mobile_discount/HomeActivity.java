@@ -1,14 +1,27 @@
 package hamza.m.mobile_discount;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import hamza.m.Model.ListProductData;
+import hamza.m.Model.ShopkeeperData;
 import hamza.m.adapters.Products_home_adapter;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
@@ -21,6 +34,12 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView.Adapter product_adapter;
     RecyclerView.LayoutManager product_layoutManager;
     ImageView addform_image ;
+
+    ArrayList<ListProductData> list;
+
+    //firebase real time db values
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
     //arrays for data filling
     int[] product_image = {
@@ -72,14 +91,77 @@ public class HomeActivity extends AppCompatActivity {
 //        hello= findViewById(R.id.hellooo);
 
 
+        //inityializing firerbase objects here !!!!!
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("discount-mobile");
 
-        products_recyclerView = findViewById(R.id.productsrecyclerview);
+        //accessing values of firebase here !!!!!
+
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list = new ArrayList<>();
+                for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren())
+                {
+                    ShopkeeperData shopkeeperData = dataSnapshot1.getValue(ShopkeeperData.class);
+                    ListProductData listProductData = new ListProductData();
+                     String PName = shopkeeperData.getpName();
+                     String PDescription = shopkeeperData.getpDesc();
+                     String PType = shopkeeperData.getpType();
+                     String PPrice = shopkeeperData.getpPrice();
+                     String PDiscount = shopkeeperData.getPdiscount();
+                     String PImage = shopkeeperData.getpImage();
+                     String pShop = shopkeeperData.getpShop();
+
+                     //adding data to array list of data list model class
+
+                    listProductData.setpName(PName);
+                    listProductData.setpDesc(PDescription);
+                    listProductData.setpType(PType);
+                    listProductData.setpPrice(PPrice);
+                    listProductData.setPdiscount(PDiscount);
+                    listProductData.setpImage(PImage);
+                    listProductData.setpShop(pShop);
+
+                    list.add(listProductData);
+
+
+                    products_recyclerView = findViewById(R.id.productsrecyclerview);
+
+
+                    product_layoutManager = new LinearLayoutManager(HomeActivity.this);
+                    products_recyclerView.setLayoutManager(product_layoutManager);
+                    products_recyclerView.setHasFixedSize(true);
+                    products_recyclerView.setItemAnimator( new DefaultItemAnimator());
+
+                    product_adapter =  new Products_home_adapter(HomeActivity.this,list);
+
+                    products_recyclerView.setAdapter(product_adapter);
+
+//                    products_recyclerView.notify();
+
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        /*products_recyclerView = findViewById(R.id.productsrecyclerview);
         product_layoutManager = new LinearLayoutManager(HomeActivity.this);
         products_recyclerView.setLayoutManager(product_layoutManager);
         products_recyclerView.setHasFixedSize(true);
 
         product_adapter =  new Products_home_adapter(this,product_image,product_name,product_description,product_type);
-        products_recyclerView.setAdapter(product_adapter);
+        products_recyclerView.setAdapter(product_adapter);*/
 
 
         addform_image.setOnClickListener(new View.OnClickListener() {
@@ -89,11 +171,14 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(addform);
             }
         });
+
+
     }
 
-
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent(HomeActivity.this,SelectUserScreen.class);
+        startActivity(i);
+       finish();
+    }
 }

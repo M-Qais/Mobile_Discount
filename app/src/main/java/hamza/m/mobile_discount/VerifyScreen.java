@@ -39,8 +39,11 @@ public class VerifyScreen extends AppCompatActivity {
     private ProgressBar p_progressbar;
     private ProgressBar v_progressbar;
     private Button verify_btnn;
-    private FirebaseAuth mAuth;
     private TextView authent_eror;
+
+    private FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mcallback;
     private String mVerificationId;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
@@ -163,8 +166,13 @@ public class VerifyScreen extends AppCompatActivity {
 //                            Log.d(TAG, "signInWithCredential:success");
 
                             FirebaseUser user = task.getResult().getUser();
-                            Intent intentforsucess = new Intent(VerifyScreen.this,ProfileActivity.class);
-                            startActivity(intentforsucess);
+                            if(user!=null) {
+
+
+
+                                Intent intentforsucess = new Intent(VerifyScreen.this, ProfileActivity.class);
+                                startActivity(intentforsucess);
+                            }
                             // ...
                         } else {
                             authent_eror.setText("there was some error in logging in.");
@@ -179,6 +187,26 @@ public class VerifyScreen extends AppCompatActivity {
                     }
                 });
     }
+   /* @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthListener);
+    }*/
 
 }

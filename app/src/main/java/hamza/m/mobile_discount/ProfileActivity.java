@@ -45,6 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button Lg_btn;
 
     //firebase initialization
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private CircleImageView circleImageView;
@@ -53,6 +54,8 @@ public class ProfileActivity extends AppCompatActivity {
     DatabaseReference mUserDatabase;
 
     StorageReference mStorageRef;
+
+    StorageReference mChildStorage;
 
     //IMAGE HOLD URI
     Uri imageHoldUri = null;
@@ -149,27 +152,32 @@ public class ProfileActivity extends AppCompatActivity {
 
 //                mProgress.setMessage("Please wait....");
                 mProgress.show();
-                StorageReference mChildStorage = mStorageRef.child("User_Profile").child(imageHoldUri.getLastPathSegment());
+                mChildStorage = mStorageRef.child("User_Profile").child(imageHoldUri.getLastPathSegment());
                 String profilePicUrl = imageHoldUri.getLastPathSegment();
                 mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
 //                        final Uri imageUrl = taskSnapshot.getDownloadUrl();
-                        Task<Uri> u = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+//                        Task<Uri> u = taskSnapshot.getMetadata().getReference().getDownloadUrl();
 
-                        mUserDatabase.child("username").setValue(username);
-                        mUserDatabase.child("userid").setValue(mAuth.getCurrentUser().getUid());
-                        mUserDatabase.child("imageurl").setValue(u.toString());
+                        mChildStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
 
-                        mProgress.dismiss();
+                                mUserDatabase.child("username").setValue(username);
+                                mUserDatabase.child("userid").setValue(mAuth.getCurrentUser().getUid());
+                                mUserDatabase.child("imageurl").setValue(uri.toString());
 
-                     finish();
-                        Intent moveToHome = new Intent(ProfileActivity.this, HomeActivity.class);
-                        moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(moveToHome);
+                                mProgress.dismiss();
 
+                                finish();
+                                Intent moveToHome = new Intent(ProfileActivity.this, HomeActivity.class);
+                                moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(moveToHome);
 
+                            }
+                        });
 
                     }
                 });

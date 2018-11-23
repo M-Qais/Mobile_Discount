@@ -117,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:background="@color/yellow"
+        android:background="#ff6326"
         android:text="Next" />
 
 </LinearLayout>

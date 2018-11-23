@@ -1,23 +1,27 @@
-package hamza.m.mobile_discount;
+package hamza.m.Model;
 
-public class ShopkeeperData {
+public class ListProductData {
+
     private String pName;
     private String pType;
     private String pDesc;
     private String pPrice;
     private String pdiscount;
+    private String pImage;
+    private String pShop;
 
-    public ShopkeeperData() {
+    public ListProductData() {
     }
 
-    public ShopkeeperData(String pName, String pType, String pDesc, String pPrice, String pdiscount) {
+    public ListProductData(String pName, String pType, String pDesc, String pPrice, String pdiscount, String product_image,String Shop) {
         this.pName = pName;
         this.pType = pType;
         this.pDesc = pDesc;
         this.pPrice = pPrice;
         this.pdiscount = pdiscount;
+        this.pImage = product_image;
+        this.pShop = Shop;
     }
-
 
     public String getpName() {
         return pName;
@@ -59,5 +63,19 @@ public class ShopkeeperData {
         this.pdiscount = pdiscount;
     }
 
+    public String getpImage() {
+        return pImage;
+    }
 
+    public void setpImage(String pImage) {
+        this.pImage = pImage;
+    }
+
+    public String getpShop() {
+        return pShop;
+    }
+
+    public void setpShop(String pShop) {
+        this.pShop = pShop;
+    }
 }

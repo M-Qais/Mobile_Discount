@@ -7,6 +7,7 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
+    android:id="@+id/product_homeclick"
     card_view:cardUseCompatPadding="true">
 
     <LinearLayout
@@ -19,27 +20,12 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/product_imageView_1"
+                android:id="@+id/product_imageView"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
                 android:contentDescription="ProductImage"
                 android:src="@drawable/abc"
-
-                />
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textColor="@android:color/darker_gray"
-                android:id="@+id/surah_number_accor"
-                android:text="hsjsdjhf"
-                android:textStyle="bold|italic"
-                android:layout_alignTop="@id/product_imageView"
-                android:layout_alignBottom="@id/product_imageView"
-                android:layout_alignLeft="@id/product_imageView"
-                android:layout_alignRight="@id/product_imageView"
 
                 />
         </RelativeLayout>
@@ -61,26 +47,34 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/product_name"
+                    android:id="@+id/product_name_s"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="abc"
-                    android:textSize="14sp"
+                    android:text="Name"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/product_description"
+                    android:id="@+id/product_discount_s"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="def"
-                    android:textSize="12sp" />
+                    android:text="Discount"
+                    android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/product_type"
+                    android:id="@+id/product_type_s"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ghi"
-                    android:textSize="10sp" />
+                    android:text="Type"
+                    android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price"
+                    android:id="@+id/product_price_s"
+                    android:textSize="16sp"
+                    />
+
 
             </LinearLayout>
 
