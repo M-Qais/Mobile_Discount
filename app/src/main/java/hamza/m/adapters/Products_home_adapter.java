@@ -75,7 +75,7 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
 //        holder.product_desc.setText(listProductData.getpDesc());
         holder.product_type.setText(listProductData.getpType());
         holder.product_price.setText(listProductData.getpPrice());
-        holder.product_discount.setText(listProductData.getPdiscount());
+        holder.product_discount.setText(listProductData.getPdiscount() + "%");
         Picasso.get()
                .load(listProductData.getpImage())
                .into(holder.product_image);
@@ -87,10 +87,12 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
                 i.putExtra(URL,listProductData.getpImage());
                 i.putExtra("p_name",listProductData.getpDesc());
                 i.putExtra("p_desc",listProductData.getpName());
+                i.putExtra("lat",listProductData.getLat());
+                i.putExtra("lng",listProductData.getLng());
                 context.startActivity(i);
             }
         });
-       /* holder.mcardView.setOnLongClickListener(new View.OnLongClickListener() {
+     /*   holder.mcardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 mAuth=FirebaseAuth.getInstance();
@@ -99,9 +101,21 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
                 DatabaseReference s_k_product = FirebaseDatabase.getInstance().getReference("discount-mobile").child(valueid);
                 s_k_product.removeValue();
                 Toast.makeText(context, "Item has been removed Successfully !", Toast.LENGTH_LONG).show();
-                return false;
+                return true;
             }
         });*/
+     holder.mcardView.setOnLongClickListener(new View.OnLongClickListener() {
+         @Override
+         public boolean onLongClick(View view) {
+//             adapter.getRef(position).remove();
+             String itemLabel = String.valueOf(listdata.get(position));
+             listdata.remove(position);
+             notifyItemRemoved(position);
+             notifyItemRangeChanged(position,listdata.size());
+             Toast.makeText(context," Item Removed : " ,Toast.LENGTH_SHORT).show();
+             return true;
+         }
+     });
 
 
 

@@ -9,11 +9,13 @@ public class ListProductData {
     private String pdiscount;
     private String pImage;
     private String pShop;
+    private String lat;
+    private String lng;
 
     public ListProductData() {
     }
 
-    public ListProductData(String pName, String pType, String pDesc, String pPrice, String pdiscount, String product_image,String Shop) {
+    public ListProductData(String pName, String pType, String pDesc, String pPrice, String pdiscount, String product_image,String Shop, String lat, String lng) {
         this.pName = pName;
         this.pType = pType;
         this.pDesc = pDesc;
@@ -21,6 +23,8 @@ public class ListProductData {
         this.pdiscount = pdiscount;
         this.pImage = product_image;
         this.pShop = Shop;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public String getpName() {
@@ -77,5 +81,21 @@ public class ListProductData {
 
     public void setpShop(String pShop) {
         this.pShop = pShop;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 }

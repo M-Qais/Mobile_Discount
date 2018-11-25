@@ -1,16 +1,32 @@
 package hamza.m.mobile_discount;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import hamza.m.Model.ListProductData;
 import hamza.m.Model.ShopkeeperData;
@@ -34,15 +51,36 @@ public class HomeActivity extends AppCompatActivity {
     RecyclerView.Adapter product_adapter;
     RecyclerView.LayoutManager product_layoutManager;
     ImageView addform_image ;
+    private String userType;
+
+    RadioButton byname,bytype;
+    EditText inputSearch;
+    RadioGroup rg;
 
     ArrayList<ListProductData> list;
+    ArrayList<ListProductData> dupliacatelist;
 
     //firebase real time db values
     FirebaseDatabase database;
     DatabaseReference myRef;
 
+    FirebaseAuth mAuth;
+    SharedPreferences sharedPreferences;
+
+
+    //Location
+//    private GoogleMap mMap;
+    //play service...
+    private static final int MY_PERMISSION_REQUEST_CODE = 7000;
+    private static final int PLAY_SERVICE_RES_REQUEST = 7001;
+
+//    private LocationRequest mlocationRequest;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLAstLocation;
+
+
     //arrays for data filling
-    int[] product_image = {
+    /*int[] product_image = {
             R.drawable.food, R.drawable.beauty, R.drawable.health, R.drawable.health_2,R.drawable.health_3,R.drawable.home,R.drawable.home_2,
             R.drawable.home_3,R.drawable.food, R.drawable.food,R.drawable.beauty,R.drawable.health_2,R.drawable.health_3,R.drawable.home_3,
             R.drawable.health,R.drawable.food,
@@ -71,7 +109,7 @@ public class HomeActivity extends AppCompatActivity {
     "This product is for food the delicious and yummm fast food point"};
 
     String[] product_type = {"Food","Health& Beauty","Health& Beauty","Health& Beauty","Health& Beauty","Home Appliances","Home Appliances","Home Appliances",
-    "Food","Food","Food","Health& Beauty","Health& Beauty","Health& Beauty","Home Appliances","Health& Beauty","Food"};
+    "Food","Food","Food","Health& Beauty","Health& Beauty","Health& Beauty","Home Appliances","Health& Beauty","Food"};*/
     //arrays thats it
 
 
@@ -84,7 +122,44 @@ public class HomeActivity extends AppCompatActivity {
                         setFontAttrId(R.attr.fontPath).
                         build());
         setContentView(R.layout.activity_home);
+
+        inputSearch = (EditText)findViewById(R.id.inputSearch);
         addform_image = (ImageView) findViewById(R.id.addformimage);
+        byname = (RadioButton) findViewById(R.id.byname);
+        bytype = (RadioButton) findViewById(R.id.byType);
+        rg = (RadioGroup) findViewById(R.id.selecttype_r);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                dosearch();
+            }
+        });
+
+        //sharedd preferences to check uyser type
+        sharedPreferences = getSharedPreferences("selecter",MODE_PRIVATE);
+        userType = sharedPreferences.getString("userType","");
+        if(userType.equals("user"))
+        {
+            addform_image.setVisibility(View.GONE);
+
+        }
+        else if(userType.equals("shopkeeper")){
+
+            addform_image.setVisibility(View.VISIBLE);
+        }
+
+
+        //
+        mAuth = FirebaseAuth.getInstance();
+
+        if(mAuth.getCurrentUser() == null)
+        {
+            Intent i = new Intent(HomeActivity.this,VerifyScreen.class);
+            startActivity(i);
+            finish();
+
+        }
 
 
 
@@ -102,6 +177,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list = new ArrayList<>();
+                dupliacatelist = new ArrayList<>();
                 for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren())
                 {
                     ShopkeeperData shopkeeperData = dataSnapshot1.getValue(ShopkeeperData.class);
@@ -113,6 +189,8 @@ public class HomeActivity extends AppCompatActivity {
                      String PDiscount = shopkeeperData.getPdiscount();
                      String PImage = shopkeeperData.getpImage();
                      String pShop = shopkeeperData.getpShop();
+                     String lat = shopkeeperData.getLat();
+                     String lng = shopkeeperData.getLng();
 
                      //adding data to array list of data list model class
 
@@ -123,8 +201,11 @@ public class HomeActivity extends AppCompatActivity {
                     listProductData.setPdiscount(PDiscount);
                     listProductData.setpImage(PImage);
                     listProductData.setpShop(pShop);
+                    listProductData.setLat(lat);
+                    listProductData.setLng(lng);
 
                     list.add(listProductData);
+                    dupliacatelist.add(listProductData);
 
 
                     products_recyclerView = findViewById(R.id.productsrecyclerview);
@@ -140,9 +221,6 @@ public class HomeActivity extends AppCompatActivity {
                     products_recyclerView.setAdapter(product_adapter);
 
 //                    products_recyclerView.notify();
-
-
-
 
                 }
             }
@@ -171,14 +249,137 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(addform);
             }
         });
+      //search functionality
+        inputSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                //   Student.this.arrayAdapter.getFilter().filter(cs);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // To do auto generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // To do auto generated method stub
+               dosearch();
+            }
+            // arrayAdapter.getFilter().filter(text);
+
+                /*for(int i=0;i<array_numbers1.size();i++){
+                    array_numbers.equals(array_numbers1.get(i));
+
+                }
+*/
+
+        });
 
 
+    }
+
+    private void dosearch() {
+
+        String text = inputSearch.getText().toString().toLowerCase(Locale.getDefault());
+
+        //  array_list.clear();
+        if (text.length() == 0) {
+            list.clear();
+            for (ListProductData wp : dupliacatelist) {
+
+                list.add(wp);
+
+            }
+
+
+        } else {
+            list.clear();
+            for (ListProductData wp : dupliacatelist) {
+                if(byname.isChecked())
+                {
+
+                    if (wp.getpName().toLowerCase(Locale.getDefault()).contains(text)) {
+                        list.add(wp);
+                    }
+                }
+                else if(bytype.isChecked())
+                {
+                    if (wp.getpType().toLowerCase(Locale.getDefault()).contains(text)) {
+                        list.add(wp);
+                    }
+
+                }
+
+            }
+        }
+        product_adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onBackPressed() {
-        Intent i = new Intent(HomeActivity.this,SelectUserScreen.class);
-        startActivity(i);
-       finish();
+    public void onBackPressed(){
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        Bundle extras = getIntent().getExtras();
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.name_logout){
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            mAuth.signOut();
+            finish();
+            Intent i = new Intent(HomeActivity.this,SelectUserScreen.class);
+            startActivity(i);
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+ /*   LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    double longitude = location.getLongitude();
+    double latitude = location.getLatitude();*/
+
+  /*  private void setUpLocation() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //request run time permission...
+            ActivityCompat.requestPermissions(this, new String[]{
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+
+            }, MY_PERMISSION_REQUEST_CODE);
+
+        } else
+
+        {
+            if (checkplayservices()) {
+//                buildGoogleApiClient();
+//                createLocationRequest();
+//                displayLocation();
+            }
+        }
+    }*/
+
+    //search functioanlity..
+
+
 }

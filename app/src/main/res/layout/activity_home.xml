@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,12 +12,16 @@
         android:id="@+id/textDataLinear"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:gravity="center"
+        >
 
         <TextView
             android:id="@+id/heading_dua"
-            android:layout_width="300dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.9"
             android:layout_gravity="center_horizontal"
             android:background="#ff6326"
             android:gravity="center_horizontal"
@@ -29,12 +33,47 @@
 
         <ImageView
             android:id="@+id/addformimage"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="0.1"
             android:layout_gravity="start"
-            android:src="@drawable/addddd" />
+            android:src="@drawable/addddd"
+            />
 
     </LinearLayout>
+    <EditText android:id="@+id/inputSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="Search.."
+        android:background="@android:color/white"
+        android:layout_below="@+id/textDataLinear"
+
+        />
+
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/selecttype_r"
+            android:gravity="center"
+            android:layout_below="@+id/inputSearch">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/byType"
+            android:text="By Type"
+            android:layout_marginEnd="10dp"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/byname"
+            android:text="By Name"
+            android:layout_marginEnd="10dp"/>
+        </RadioGroup>
+
+
 
 
     <!-- TODO: Update blank fragment layout -->
@@ -42,9 +81,10 @@
         android:id="@+id/productsrecyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp">
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/inputSearch">
 
 
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+</RelativeLayout>

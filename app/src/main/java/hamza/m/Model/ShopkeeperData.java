@@ -11,11 +11,13 @@ public class ShopkeeperData {
     private String pdiscount;
     private String pImage;
     private String pShop;
+    private String lat;
+    private String lng;
 
     public ShopkeeperData() {
     }
 
-    public ShopkeeperData(String pName, String pType, String pDesc, String pPrice, String pdiscount,String pimage,String shop) {
+    public ShopkeeperData(String pName, String pType, String pDesc, String pPrice, String pdiscount,String pimage,String shop, String lat, String lng) {
         this.pName = pName;
         this.pType = pType;
         this.pDesc = pDesc;
@@ -23,6 +25,8 @@ public class ShopkeeperData {
         this.pdiscount = pdiscount;
         this.pImage = pimage;
         this.pImage = shop;
+        this.lat = lat;
+        this.lng = lng;
     }
 
 
@@ -80,5 +84,29 @@ public class ShopkeeperData {
 
     public void setpShop(String pShop) {
         this.pShop = pShop;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 }

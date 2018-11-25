@@ -3,6 +3,7 @@ package hamza.m.mobile_discount;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -33,6 +34,8 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.Random;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import hamza.m.Model.ShopkeeperData;
 
@@ -40,7 +43,7 @@ public class Shopkeeperform extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA = 3;
     private static final int SELECT_FILE = 2;
-    EditText p_name,p_desc,p_price,p_discount,p_shop;
+    EditText p_name, p_desc, p_price, p_discount, p_shop;
     Button saveformdata;
     RelativeLayout parentlayout;
     CircleImageView productUploadImage;
@@ -58,32 +61,34 @@ public class Shopkeeperform extends AppCompatActivity {
     ProgressDialog imageproductdialog;
 
     StorageReference mChildStorage;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopkeeperform);
 
+        sharedPreferences = getSharedPreferences("location", MODE_PRIVATE);
+
         //initializing the fields here
 
-        p_name = (EditText)findViewById(R.id.product_name_sk);
+        p_name = (EditText) findViewById(R.id.product_name_sk);
         p_spinner = (Spinner) findViewById(R.id.Product_type_sk);
-        p_desc = (EditText)findViewById(R.id.product_description_sk);
-        p_price = (EditText)findViewById(R.id.product_price_sk);
-        p_discount = (EditText)findViewById(R.id.product_disocunt_sk);
+        p_desc = (EditText) findViewById(R.id.product_description_sk);
+        p_price = (EditText) findViewById(R.id.product_price_sk);
+        p_discount = (EditText) findViewById(R.id.product_disocunt_sk);
         p_shop = (EditText) findViewById(R.id.shop_name);
         productUploadImage = (CircleImageView) findViewById(R.id.product_image);
 
 
-        saveformdata = (Button)findViewById(R.id.saveformsk_btn);
-        parentlayout =(RelativeLayout) findViewById(R.id.relativelayoutOfForm);
+        saveformdata = (Button) findViewById(R.id.saveformsk_btn);
+        parentlayout = (RelativeLayout) findViewById(R.id.relativelayoutOfForm);
 //        shopkeeperData = new ShopkeeperData();
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        shopkeeperdatabse =FirebaseDatabase.getInstance();
-        db_sk_reference =shopkeeperdatabse.getReference("discount-mobile");
-
+        shopkeeperdatabse = FirebaseDatabase.getInstance();
+        db_sk_reference = shopkeeperdatabse.getReference("discount-mobile");
 
 
         saveformdata.setOnClickListener(new View.OnClickListener() {
@@ -168,81 +173,72 @@ public class Shopkeeperform extends AppCompatActivity {
 
     private void saveUserProfile() {
 
-            if( imageHoldUri != null )
-            {
-                imageproductdialog.setMessage("Please Wait... ");
-                imageproductdialog.setCancelable(false);
-                imageproductdialog.setCanceledOnTouchOutside(false);
+        if (imageHoldUri != null) {
+            imageproductdialog.setMessage("Please Wait... ");
+            imageproductdialog.setCancelable(false);
+            imageproductdialog.setCanceledOnTouchOutside(false);
 
 //                mProgress.setMessage("Please wait....");
-                imageproductdialog.show();
-                mChildStorage = mStorageRef.child("shopkeeper_data").child(imageHoldUri.getLastPathSegment());
-                mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            imageproductdialog.show();
+            mChildStorage = mStorageRef.child("shopkeeper_data").child(imageHoldUri.getLastPathSegment());
+            mChildStorage.putFile(imageHoldUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
 //                        final Uri imageUrl = taskSnapshot.getDownloadUrl();
 //                        Task<Uri> u = taskSnapshot.getMetadata().getReference().getDownloadUrl();
 
-                        mChildStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                String name = p_name.getText().toString();
-                                String description = p_desc.getText().toString();
-                                String type = p_spinner.getSelectedItem().toString();
-                                String Price = p_price.getText().toString();
-                                String discount = p_discount.getText().toString();
-                                String shop = p_shop.getText().toString();
+                    mChildStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String name = p_name.getText().toString();
+                            String description = p_desc.getText().toString();
+                            String type = p_spinner.getSelectedItem().toString();
+                            String Price = p_price.getText().toString();
+                            String discount = p_discount.getText().toString();
+                            String shop = p_shop.getText().toString();
 //                String profilePicUrl = imageHoldUri.getLastPathSegment();
-                                String image_p = productUploadImage.toString();
+                            String image_p = productUploadImage.toString();
 
-                                String key = db_sk_reference.push().getKey();
-                                ShopkeeperData shopkeeperData = new ShopkeeperData();
-                                shopkeeperData.setpName(name);
-                                shopkeeperData.setpDesc(description);
-                                shopkeeperData.setpType(type);
-                                shopkeeperData.setpPrice(Price);
-                                shopkeeperData.setPdiscount(discount);
-                                shopkeeperData.setpImage(uri.toString());
-                                shopkeeperData.setpShop(shop);
+                            String key = db_sk_reference.push().getKey();
+                            ShopkeeperData shopkeeperData = new ShopkeeperData();
+                            shopkeeperData.setpName(name);
+                            shopkeeperData.setpDesc(description);
+                            shopkeeperData.setpType(type);
+                            shopkeeperData.setpPrice(Price);
+                            shopkeeperData.setPdiscount(discount);
+                            shopkeeperData.setpImage(uri.toString());
+                            shopkeeperData.setpShop(shop);
+                            shopkeeperData.setLat(sharedPreferences.getString("lat", ""));
+                            shopkeeperData.setLng(sharedPreferences.getString("lng", ""));
 
-                                db_sk_reference.child(key).setValue(shopkeeperData).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Snackbar.make(parentlayout,"Product Inserted Successfully ",Snackbar.LENGTH_LONG)
+                            db_sk_reference.child(key).setValue(shopkeeperData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Snackbar.make(parentlayout, "Product Inserted Successfully ", Snackbar.LENGTH_LONG)
 
-                                                .setActionTextColor(Color.GREEN)
-                                                .show();
+                                            .setActionTextColor(Color.GREEN)
+                                            .show();
 
-                                        p_name.setText("");
-                                        p_desc.setText("");
-                                        p_spinner.setAdapter(null);
-                                        p_price.setText("");
-                                        p_discount.setText("");
+                                    p_name.setText("");
+                                    p_desc.setText("");
+                                    p_spinner.setAdapter(null);
+                                    p_price.setText("");
+                                    p_discount.setText("");
 
-                                        finish();
-                                    }
-                                });
-                            }
-                        });
+                                    finish();
+                                }
+                            });
+                        }
+                    });
 
+                }
+            });
+        } else {
 
+            Toast.makeText(Shopkeeperform.this, "Please select the product pic", Toast.LENGTH_LONG).show();
 
-//                        Intent moveToHome = new Intent(Shopkeeperform.this, HomeActivity.class);
-//                        moveToHome.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(moveToHome);
-
-
-
-                    }
-                });
-            }else
-            {
-
-                Toast.makeText(Shopkeeperform.this, "Please select the product pic", Toast.LENGTH_LONG).show();
-
-            }
-
+        }
 
 
     }
@@ -303,23 +299,22 @@ public class Shopkeeperform extends AppCompatActivity {
 
 
         //SAVE URI FROM GALLERY
-        if(requestCode == SELECT_FILE && resultCode == RESULT_OK)
-        {
+        if (requestCode == SELECT_FILE && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
 
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(1,1)
+                    .setAspectRatio(1, 1)
                     .start(this);
 
-        }else if ( requestCode == REQUEST_CAMERA && resultCode == RESULT_OK ){
+        } else if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
             //SAVE URI FROM CAMERA
 
             Uri imageUri = data.getData();
 
             CropImage.activity(imageUri)
                     .setGuidelines(CropImageView.Guidelines.ON)
-                    .setAspectRatio(1,1)
+                    .setAspectRatio(1, 1)
                     .start(this);
 
         }
@@ -339,6 +334,8 @@ public class Shopkeeperform extends AppCompatActivity {
 
     }
 
+    Random r = new Random();
+//    double lat = (r.nextDouble((double)((31.400640-31.400625)*10+1))+31.400625*10)/10.0;
 
 
     ///image of product...
