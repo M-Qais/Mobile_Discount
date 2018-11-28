@@ -1,9 +1,7 @@
 package hamza.m.Model;
 
-import android.graphics.Bitmap;
-
 public class ShopkeeperData {
-    private int id;
+    private String id;
     private String pName;
     private String pType;
     private String pDesc;
@@ -17,7 +15,8 @@ public class ShopkeeperData {
     public ShopkeeperData() {
     }
 
-    public ShopkeeperData(String pName, String pType, String pDesc, String pPrice, String pdiscount,String pimage,String shop, String lat, String lng) {
+    public ShopkeeperData(String id, String pName, String pType, String pDesc, String pPrice, String pdiscount, String pimage, String shop, String lat, String lng) {
+        this.id = id;
         this.pName = pName;
         this.pType = pType;
         this.pDesc = pDesc;
@@ -29,6 +28,13 @@ public class ShopkeeperData {
         this.lng = lng;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getpName() {
         return pName;
@@ -86,13 +92,7 @@ public class ShopkeeperData {
         this.pShop = pShop;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getLat() {
         return lat;

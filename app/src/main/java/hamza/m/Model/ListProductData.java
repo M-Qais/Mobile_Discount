@@ -2,6 +2,7 @@ package hamza.m.Model;
 
 public class ListProductData {
 
+    private String id;
     private String pName;
     private String pType;
     private String pDesc;
@@ -15,7 +16,8 @@ public class ListProductData {
     public ListProductData() {
     }
 
-    public ListProductData(String pName, String pType, String pDesc, String pPrice, String pdiscount, String product_image,String Shop, String lat, String lng) {
+    public ListProductData(String id,String pName, String pType, String pDesc, String pPrice, String pdiscount, String product_image,String Shop, String lat, String lng) {
+        this.id = id;
         this.pName = pName;
         this.pType = pType;
         this.pDesc = pDesc;
@@ -25,6 +27,14 @@ public class ListProductData {
         this.pShop = Shop;
         this.lat = lat;
         this.lng = lng;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getpName() {

@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,6 +58,8 @@ public class Shopkeeperform extends AppCompatActivity {
     FirebaseDatabase shopkeeperdatabse;
     DatabaseReference db_sk_reference;
     StorageReference mStorageRef;
+    FirebaseAuth mauth;
+
 
     ProgressDialog imageproductdialog;
 
@@ -69,6 +72,9 @@ public class Shopkeeperform extends AppCompatActivity {
         setContentView(R.layout.activity_shopkeeperform);
 
         sharedPreferences = getSharedPreferences("location", MODE_PRIVATE);
+        mauth = FirebaseAuth.getInstance();
+        db_sk_reference = FirebaseDatabase.getInstance().getReference().child("Users").child(mauth.getCurrentUser().getUid());
+
 
         //initializing the fields here
 
@@ -191,17 +197,21 @@ public class Shopkeeperform extends AppCompatActivity {
                     mChildStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
+                            String id =mauth.getCurrentUser().getUid();
                             String name = p_name.getText().toString();
                             String description = p_desc.getText().toString();
                             String type = p_spinner.getSelectedItem().toString();
                             String Price = p_price.getText().toString();
                             String discount = p_discount.getText().toString();
                             String shop = p_shop.getText().toString();
+
+
 //                String profilePicUrl = imageHoldUri.getLastPathSegment();
                             String image_p = productUploadImage.toString();
 
                             String key = db_sk_reference.push().getKey();
                             ShopkeeperData shopkeeperData = new ShopkeeperData();
+                            shopkeeperData.setId(id);
                             shopkeeperData.setpName(name);
                             shopkeeperData.setpDesc(description);
                             shopkeeperData.setpType(type);

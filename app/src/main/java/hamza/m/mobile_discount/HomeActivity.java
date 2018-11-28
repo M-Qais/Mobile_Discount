@@ -182,6 +182,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     ShopkeeperData shopkeeperData = dataSnapshot1.getValue(ShopkeeperData.class);
                     ListProductData listProductData = new ListProductData();
+                    String id = mAuth.getCurrentUser().getUid();
                      String PName = shopkeeperData.getpName();
                      String PDescription = shopkeeperData.getpDesc();
                      String PType = shopkeeperData.getpType();
@@ -193,7 +194,7 @@ public class HomeActivity extends AppCompatActivity {
                      String lng = shopkeeperData.getLng();
 
                      //adding data to array list of data list model class
-
+                    listProductData.setId(id);
                     listProductData.setpName(PName);
                     listProductData.setpDesc(PDescription);
                     listProductData.setpType(PType);

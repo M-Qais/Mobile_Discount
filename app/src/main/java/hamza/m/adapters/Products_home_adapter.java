@@ -104,7 +104,7 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
                 return true;
             }
         });*/
-     holder.mcardView.setOnLongClickListener(new View.OnLongClickListener() {
+ /*    holder.mcardView.setOnLongClickListener(new View.OnLongClickListener() {
          @Override
          public boolean onLongClick(View view) {
 //             adapter.getRef(position).remove();
@@ -115,7 +115,8 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
              Toast.makeText(context," Item Removed : " ,Toast.LENGTH_SHORT).show();
              return true;
          }
-     });
+     });*/
+
 
 
 
