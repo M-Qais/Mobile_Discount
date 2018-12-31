@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -144,7 +145,7 @@ public class HomeActivity extends AppCompatActivity {
             addform_image.setVisibility(View.GONE);
 
         }
-        else if(userType.equals("shopkeeper")){
+        else if (userType.equals("shopkeeper")){
 
             addform_image.setVisibility(View.VISIBLE);
         }
@@ -180,9 +181,9 @@ public class HomeActivity extends AppCompatActivity {
                 dupliacatelist = new ArrayList<>();
                 for(DataSnapshot dataSnapshot1 :dataSnapshot.getChildren())
                 {
+
                     ShopkeeperData shopkeeperData = dataSnapshot1.getValue(ShopkeeperData.class);
                     ListProductData listProductData = new ListProductData();
-                    String id = mAuth.getCurrentUser().getUid();
                      String PName = shopkeeperData.getpName();
                      String PDescription = shopkeeperData.getpDesc();
                      String PType = shopkeeperData.getpType();
@@ -192,6 +193,8 @@ public class HomeActivity extends AppCompatActivity {
                      String pShop = shopkeeperData.getpShop();
                      String lat = shopkeeperData.getLat();
                      String lng = shopkeeperData.getLng();
+                     String key = dataSnapshot1.getKey();
+                     String id = shopkeeperData.getId();
 
                      //adding data to array list of data list model class
                     listProductData.setId(id);
@@ -204,6 +207,7 @@ public class HomeActivity extends AppCompatActivity {
                     listProductData.setpShop(pShop);
                     listProductData.setLat(lat);
                     listProductData.setLng(lng);
+                    listProductData.setKey(key);
 
                     list.add(listProductData);
                     dupliacatelist.add(listProductData);

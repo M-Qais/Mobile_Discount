@@ -1,6 +1,9 @@
 package hamza.m.adapters;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -14,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +31,7 @@ import java.util.List;
 import hamza.m.Model.ListProductData;
 import hamza.m.mobile_discount.ProductDisplayActivity;
 import hamza.m.mobile_discount.R;
+import hamza.m.mobile_discount.Shopkeeperform;
 
 
 public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
@@ -35,7 +40,7 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
 
     ArrayList<ListProductData> listdata;
     FirebaseAuth mAuth;
-
+    DatabaseReference mUserDatabase;
     int[] product_image;
     String[] product_name;
     String[] product_description;
@@ -61,7 +66,8 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
 //        View v = LayoutInflater.from(context).inflate(R.layout.shopkeeperaddeddata, parent, false);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopkeeperaddeddata,parent,false);
         DuaViewHolder duaViewHolder = new DuaViewHolder(view);
-
+        mAuth = FirebaseAuth.getInstance();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("discount-mobile");
         return duaViewHolder;
 
     }
@@ -71,11 +77,11 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
        final ListProductData listProductData = listdata.get(position);
 
 //         holder.product_image.setImageResource(product_image[position]);
-        holder.product_name.setText(listProductData.getpName());
+        holder.product_name.setText("Product Name:"+listProductData.getpName());
 //        holder.product_desc.setText(listProductData.getpDesc());
-        holder.product_type.setText(listProductData.getpType());
-        holder.product_price.setText(listProductData.getpPrice());
-        holder.product_discount.setText(listProductData.getPdiscount() + "%");
+        holder.product_type.setText("Product Type:"+listProductData.getpType());
+        holder.product_price.setText("Product Price: "+listProductData.getpPrice());
+        holder.product_discount.setText("Product Discount: "+listProductData.getPdiscount() + "%");
         Picasso.get()
                .load(listProductData.getpImage())
                .into(holder.product_image);
@@ -104,18 +110,75 @@ public class Products_home_adapter extends RecyclerView.Adapter<DuaViewHolder> {
                 return true;
             }
         });*/
- /*    holder.mcardView.setOnLongClickListener(new View.OnLongClickListener() {
+     holder.mcardView.setOnLongClickListener(new View.OnLongClickListener() {
          @Override
          public boolean onLongClick(View view) {
+             //pass the 'context' here
+             AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+             alertDialog.setTitle("Are you sure ");
+             alertDialog.setMessage("Delete Item ");
+             alertDialog.setCancelable(true);
+             alertDialog.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialog, int which) {
+                     dialog.cancel();
+
+                     Log.e("key", listProductData.getKey());
+
+                     Intent intent = new Intent(context, Shopkeeperform.class);
+                     intent.putExtra("image", listProductData.getpImage());
+                     intent.putExtra("shopname", listProductData.getpShop());
+                     intent.putExtra("name", listProductData.getpName());
+                     intent.putExtra("description", listProductData.getpDesc());
+                     intent.putExtra("type", listProductData.getpType());
+                     intent.putExtra("price", listProductData.getpPrice());
+                     intent.putExtra("discount", listProductData.getPdiscount());
+                     intent.putExtra("key", listProductData.getKey());
+                     context.startActivity(intent);
+
+                 }
+             });
+             final String id = mAuth.getCurrentUser().getUid();
+
+             alertDialog.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                 @Override
+                 public void onClick(DialogInterface dialog, int which) {
+
+                     // DO SOMETHING HERE
+
+
+                         mUserDatabase.child(listProductData.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                             @Override
+                             public void onSuccess(Void aVoid) {
+                                 listdata.remove(position);
+                                 notifyItemRemoved(position);
+                                 notifyItemRangeChanged(position,listdata.size());
+                                 Toast.makeText(context, "Deleted", Toast.LENGTH_LONG).show();
+                             }
+                         });
+
+                    /* String itemLabel = String.valueOf(listdata.get(position));
+                     listdata.remove(position);
+                     notifyItemRemoved(position);
+                     notifyItemRangeChanged(position,listdata.size());
+                     Toast.makeText(context," Item Removed : " ,Toast.LENGTH_SHORT).show();*/
+
+
+                 }
+             });
+
+             if(listProductData.getId().equals(id)) {
+
+                 AlertDialog dialog = alertDialog.create();
+                 dialog.show();
+             }
+             else {
+                 Toast.makeText(context, "You cannout delete or update item", Toast.LENGTH_LONG).show();
+             }
 //             adapter.getRef(position).remove();
-             String itemLabel = String.valueOf(listdata.get(position));
-             listdata.remove(position);
-             notifyItemRemoved(position);
-             notifyItemRangeChanged(position,listdata.size());
-             Toast.makeText(context," Item Removed : " ,Toast.LENGTH_SHORT).show();
              return true;
          }
-     });*/
+     });
 
 
 

@@ -8,9 +8,11 @@
     <string name="discount">Product Discount....</string>
     <array name="product_type">
 
+        <item>Select category</item>
         <item>Food</item>
-        <item>Health</item>
+        <item>Clothes</item>
         <item>Home Appliances</item>
+        <item>Shoes</item>
     </array>
 
 

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ff6326</color>
-    <color name="colorPrimaryDark">#df571c</color>
+    <color name="colorPrimary">#3333FF</color>
+    <color name="colorPrimaryDark">#FF2A2A6C</color>
     <color name="colorAccent">#847d80</color>
     <color name="bg_splash">#a1bed2</color>
     <color name="owsome">#7baedc</color>
-    <color name="yellow">#fff426</color>
+    <!--<color name="yellow">#fff426</color>-->
 
 </resources>

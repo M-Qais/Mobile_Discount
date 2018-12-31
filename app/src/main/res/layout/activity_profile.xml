@@ -30,7 +30,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="57dp"
-        android:src="@drawable/ic_pin_black"
+        android:src="@drawable/up_up"
 
         app:civ_border_color="#FF000000"
         app:civ_border_width="2dp" />
@@ -50,10 +50,12 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hamza"
+        android:hint="Your Name"
         android:id="@+id/name_profiles"
         android:textColor="@android:color/black"
         android:textSize="15sp"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:textCursorDrawable="@color/colorPrimaryDark"
         android:layout_below="@id/change_picture_tv"
         android:layout_marginTop="100dp"/>
   <Button
@@ -63,7 +65,7 @@
       android:layout_below="@id/name_profiles"
       android:layout_marginTop="100dp"
       android:text="Done"
-      android:background="#ff6326"/>
+      android:background="#3333FF"/>
 
 
 </RelativeLayout>

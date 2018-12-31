@@ -32,6 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -58,7 +59,7 @@ public class Shopkeeperform extends AppCompatActivity {
     FirebaseDatabase shopkeeperdatabse;
     DatabaseReference db_sk_reference;
     StorageReference mStorageRef;
-    FirebaseAuth mauth;
+//    FirebaseAuth mauth;
 
 
     ProgressDialog imageproductdialog;
@@ -72,8 +73,8 @@ public class Shopkeeperform extends AppCompatActivity {
         setContentView(R.layout.activity_shopkeeperform);
 
         sharedPreferences = getSharedPreferences("location", MODE_PRIVATE);
-        mauth = FirebaseAuth.getInstance();
-        db_sk_reference = FirebaseDatabase.getInstance().getReference().child("Users").child(mauth.getCurrentUser().getUid());
+//        mauth = FirebaseAuth.getInstance();
+//        db_sk_reference = FirebaseDatabase.getInstance().getReference().child("Users").child(mauth.getCurrentUser().getUid());
 
 
         //initializing the fields here
@@ -87,6 +88,8 @@ public class Shopkeeperform extends AppCompatActivity {
         productUploadImage = (CircleImageView) findViewById(R.id.product_image);
 
 
+
+
         saveformdata = (Button) findViewById(R.id.saveformsk_btn);
         parentlayout = (RelativeLayout) findViewById(R.id.relativelayoutOfForm);
 //        shopkeeperData = new ShopkeeperData();
@@ -95,7 +98,6 @@ public class Shopkeeperform extends AppCompatActivity {
 
         shopkeeperdatabse = FirebaseDatabase.getInstance();
         db_sk_reference = shopkeeperdatabse.getReference("discount-mobile");
-
 
         saveformdata.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +165,62 @@ public class Shopkeeperform extends AppCompatActivity {
         });
 
         imageproductdialog = new ProgressDialog(Shopkeeperform.this);
+
+        Intent intent = getIntent();
+
+        if(intent.getStringExtra("image") != null) {
+            String image = intent.getStringExtra("image");
+            String shopname = intent.getStringExtra("shopname");
+            String name = intent.getStringExtra("name");
+            String desc = intent.getStringExtra("description");
+            String type = intent.getStringExtra("type");
+            String price = intent.getStringExtra("price");
+            String discount = intent.getStringExtra("discount");
+            final String key = intent.getStringExtra("key");
+
+            Log.e("abc", key);
+
+            p_name.setText(name);
+//            p_spinner.setAdapter(null);
+            p_desc.setText(desc);
+            p_price.setText(price);
+            p_discount.setText(discount);
+            p_shop.setText(shopname);
+
+            Picasso.get().load(image).into(productUploadImage);
+
+            productUploadImage.setVisibility(View.GONE);
+
+            saveformdata.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    imageproductdialog.setMessage("Please Wait... ");
+                    imageproductdialog.setCancelable(false);
+                    imageproductdialog.setCanceledOnTouchOutside(false);
+
+                    db_sk_reference = shopkeeperdatabse.getReference("discount-mobile");
+
+                    Log.e("abc", key);
+                    db_sk_reference.child(key).child("pdiscount").setValue(p_discount.getText().toString());
+                    db_sk_reference.child(key).child("pType").setValue(p_spinner.getSelectedItem().toString());
+                    db_sk_reference.child(key).child("pShop").setValue(p_shop.getText().toString());
+                    db_sk_reference.child(key).child("pPrice").setValue(p_price.getText().toString());
+                    db_sk_reference.child(key).child("pDesc").setValue(p_desc.getText().toString());
+                    db_sk_reference.child(key).child("pName").setValue(p_name.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            imageproductdialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    });
+
+                }
+            });
+        }
     }
+
 
     /*private void getValues()
     {
@@ -197,13 +254,15 @@ public class Shopkeeperform extends AppCompatActivity {
                     mChildStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            String id =mauth.getCurrentUser().getUid();
+//                            String id =mauth.getCurrentUser().getUid();
                             String name = p_name.getText().toString();
                             String description = p_desc.getText().toString();
                             String type = p_spinner.getSelectedItem().toString();
                             String Price = p_price.getText().toString();
                             String discount = p_discount.getText().toString();
                             String shop = p_shop.getText().toString();
+                            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                            String userId = firebaseAuth.getCurrentUser().getUid();
 
 
 //                String profilePicUrl = imageHoldUri.getLastPathSegment();
@@ -211,7 +270,7 @@ public class Shopkeeperform extends AppCompatActivity {
 
                             String key = db_sk_reference.push().getKey();
                             ShopkeeperData shopkeeperData = new ShopkeeperData();
-                            shopkeeperData.setId(id);
+//                            shopkeeperData.setId(userId);
                             shopkeeperData.setpName(name);
                             shopkeeperData.setpDesc(description);
                             shopkeeperData.setpType(type);
@@ -219,8 +278,12 @@ public class Shopkeeperform extends AppCompatActivity {
                             shopkeeperData.setPdiscount(discount);
                             shopkeeperData.setpImage(uri.toString());
                             shopkeeperData.setpShop(shop);
+                            shopkeeperData.setId(userId);
+
                             shopkeeperData.setLat(sharedPreferences.getString("lat", ""));
                             shopkeeperData.setLng(sharedPreferences.getString("lng", ""));
+
+
 
                             db_sk_reference.child(key).setValue(shopkeeperData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

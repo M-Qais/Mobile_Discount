@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.9"
             android:layout_gravity="center_horizontal"
-            android:background="#ff6326"
+            android:background="#3333FF"
             android:gravity="center_horizontal"
             android:text="Discount Products For You "
             android:textAlignment="center"
@@ -35,9 +35,10 @@
             android:id="@+id/addformimage"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+
             android:layout_weight="0.1"
             android:layout_gravity="start"
-            android:src="@drawable/addddd"
+            android:src="@drawable/addding"
             />
 
     </LinearLayout>
@@ -46,6 +47,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:hint="Search.."
+        android:textCursorDrawable="@color/colorPrimaryDark"
         android:background="@android:color/white"
         android:layout_below="@+id/textDataLinear"
 

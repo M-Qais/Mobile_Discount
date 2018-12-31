@@ -28,6 +28,7 @@ public class ShopkeeperData {
         this.lng = lng;
     }
 
+
     public String getId() {
         return id;
     }

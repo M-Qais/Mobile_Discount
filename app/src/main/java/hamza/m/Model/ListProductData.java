@@ -12,11 +12,12 @@ public class ListProductData {
     private String pShop;
     private String lat;
     private String lng;
+    private String key;
 
     public ListProductData() {
     }
 
-    public ListProductData(String id,String pName, String pType, String pDesc, String pPrice, String pdiscount, String product_image,String Shop, String lat, String lng) {
+    public ListProductData(String id,String pName, String pType, String pDesc, String pPrice, String pdiscount, String product_image,String Shop, String lat, String lng, String key) {
         this.id = id;
         this.pName = pName;
         this.pType = pType;
@@ -27,6 +28,15 @@ public class ListProductData {
         this.pShop = Shop;
         this.lat = lat;
         this.lng = lng;
+        this.key = key;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getId() {

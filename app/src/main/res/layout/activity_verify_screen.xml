@@ -76,10 +76,10 @@
 
         <EditText
             android:id="@+id/verifcation_code"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="Enter Verification Code Here !"
+            android:layout_width="300dp"
+            android:layout_height="30dp"
+            android:background="@drawable/border"
+            android:hint="\t Enter Verification Code Here !"
             android:inputType="number"
             android:textAlignment="textStart"
             android:textColorHint="@android:color/black"
@@ -117,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
-        android:background="#ff6326"
+        android:background="#3333FF"
         android:text="Next" />
 
 </LinearLayout>
